@@ -1,9 +1,14 @@
-const sortable = (id, localStorageName, callback) => {
-	localStorageName = localStorageName == null ? 'sortableList' : localStorageName;
+const sortable = (elIdOrEl, localStorageName, callback) => {
+	var list;
 
-	const list = document.getElementById(id);
+	if (typeof elIdOrEl == 'object') {
+		list = elIdOrEl;
+	} else if (typeof elIdOrEl == 'string') {
+		list = document.getElementById(elIdOrEl);
+	} else {
+		list = document.body;
+	}
 	let draggedItem = null;
-
 	list.addEventListener('dragstart', (e) => {
 		draggedItem = e.target;
 		e.dataTransfer.setData('text/plain', '');
@@ -25,8 +30,7 @@ const sortable = (id, localStorageName, callback) => {
 		e.target.style.opacity = '1';
 		const sortedArray = getSortedArray(list);
 		callback(sortedArray);
-		console.log(sortedArray);
-		localStorage.setItem(localStorageName, JSON.stringify(sortedArray));
+		if (localStorageName) localStorage.setItem(localStorageName, JSON.stringify(sortedArray));
 	});
 
 	function getDragAfterElement(list, y, draggedItem) {
@@ -57,13 +61,15 @@ const sortable = (id, localStorageName, callback) => {
 	};
 
 	// load sorted list from local storage
-	const sortableList = JSON.parse(localStorage.getItem(localStorageName));
-	if (sortableList) {
-		sortableList.forEach((item) => {
-			const listItem = document.querySelector(`li[data-index="${item.index}"]`);
-			if (listItem) {
-				list.appendChild(listItem);
-			}
-		});
+	if (localStorageName) {
+		const sortableList = JSON.parse(localStorage.getItem(localStorageName));
+		if (sortableList) {
+			sortableList.forEach((item) => {
+				const listItem = document.querySelector(`${id}[data-index="${item.index}"]`);
+				if (listItem) {
+					list.appendChild(listItem);
+				}
+			});
+		}
 	}
 };
