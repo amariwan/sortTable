@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+      <title></title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+         ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+         }
+
+         li {
+            padding: 10px;
+            background-color: lightgray;
+            margin-bottom: 5px;
+            cursor: move;
+         }
+
+         li.list-item.dragging {
+            opacity: 0.5;
+         }
+
+         li.list-item.dragover {
+            background-color: gray;
+         }
+      </style>
+   </head>
+
+   <body>
+      <ul id="sortableList">
+         <li draggable="true" data-value="1" data-index="1" class="list-item">Item 1</li>
+         <li draggable="true" data-value="2" data-index="2" class="list-item">Item 2</li>
+         <li draggable="true" data-value="3" data-index="3" class="list-item">Item 3</li>
+         <li draggable="true" data-value="4" data-index="4" class="list-item">Item 4</li>
+         <li draggable="true" data-value="5" data-index="5" class="list-item">Item 5</li>
+      </ul>
+
+      <script src="sorttableList.js">
+      </script>
+      <script>
+         const test = (arr) => {
+            console.log(arr, "im test ")
+         }
+         sortable('sortableList', 'Test', test);
+      </script>
+   </body>
+
+</html>
